@@ -6,7 +6,7 @@ const router = express.Router();
 const taskController = require("../controllers/task_controller");
 
 // to create the task
-router.get("/create", taskController.create);
+router.post("/create", taskController.create);
 
 // to delete multiple tasks
 router.get("/delete", taskController.delete);

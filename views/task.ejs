@@ -19,6 +19,11 @@
     <title><%=title%></title>
   </head>
   <body>
+    <% if (success.length) { %>
+    <div class="alert alert-success"><%= success %></div>
+    <% } %> <% if (error.length) { %>
+    <div class="alert alert-danger"><%= error %></div>
+    <% } %>
     <div class="row mt-3">
       <div class="col-md-2"></div>
       <div class="col-md-8">
@@ -27,23 +32,103 @@
             <h2 class="text-center">TODO App</h2>
           </div>
           <div class="card-body">
+            <form action="/tasks/create" method="POST">
+              <div class="row mb-3">
+                <div class="col-md-4">
+                  <input
+                    class="form-control mt-2"
+                    type="text"
+                    name="description"
+                    id="description"
+                    placeholder="Description"
+                    required
+                  />
+                </div>
+                <div class="col-md-4">
+                  <select
+                    class="form-control mt-2"
+                    name="category"
+                    id="category"
+                    required
+                  >
+                    <option value="">SELECT CATEGORY</option>
+                    <option value="PERSONAL">Personal</option>
+                    <option value="WORK">Work</option>
+                    <option value="EDUCATION">Education</option>
+                    <option value="CLEANING">Cleaning</option>
+                    <option value="OTHER">Other</option>
+                  </select>
+                </div>
+                <div class="col-md-4">
+                  <input
+                    class="form-control mt-2"
+                    type="date"
+                    name="date"
+                    id="date"
+                    placeholder="DUE DATE"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-2">
+                  <button class="btn btn-primary w-100" type="submit">
+                    Add Task
+                  </button>
+                </div>
+                <div class="col-md-2">
+                  <button
+                    id="delete-tasks"
+                    class="btn btn-danger w-100"
+                    type="button"
+                  >
+                    Delete Tasks
+                  </button>
+                </div>
+                <div class="col-md-4"></div>
+              </div>
+            </form>
+            <hr />
             <div class="row">
-                <div class="col-md-4">
-                    <input class="form-control" type="text" name="description" id="description" placeholder="Description">
+              <div class="col-md-12">
+                <% for(let row of taskList){ %>
+                <div class="card">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-1">
+                        <input type="checkbox" id="<%row._id%>" />
+                      </div>
+                      <div class="col-8">
+                        <div>
+                          <h5><%=row.description%></h5>
+                          <p><%=formatDate(row.date)%></p>
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <% switch(row.category){ 
+                            case 'PERSONAL':  %>  
+                              <span class="badge text-bg-primary">Personal</span>
+                            <%  break; 
+                            case 'WORK':  %>
+                            <span class="badge text-bg-dark">Work</span>
+                            <%  break;
+                            case 'EDUCATION':  %>
+                            <span class="badge text-bg-warning">Education</span>    
+                            <%  break;
+                            case 'CLEANING': %> 
+                            <span class="badge text-bg-success">Cleaning</span>
+                            <%  break;
+                            case 'OTHER':  %>
+                              <span class="badge text-bg-secondary">Other</span>
+                            <%  break;
+                        } %>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div class="col-md-4">
-                    <select class="form-control" name="category" id="category">
-                        <option value="">SELECT CATEGORY</option>
-                        <option value="PERSONAL">Personal</option>
-                        <option value="WORK">Work</option>
-                        <option value="EDUCATION">Education</option>
-                        <option value="CLEANING">Cleaning</option>
-                        <option value="OTHER">Other</option>
-                    </select>
-                </div>
-                <div class="col-md-4">
-                    <input class="form-control" type="date" name="date" id="date" placeholder="DUE DATE">
-                </div>
+                <% } %>
+              </div>
             </div>
           </div>
         </div>
