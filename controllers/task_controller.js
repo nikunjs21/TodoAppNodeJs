@@ -1,3 +1,4 @@
+// use Task model to get listing, create and delete 
 const Task = require("../models/task");
 
 // function for format date as dd-mm-yyyy
@@ -16,6 +17,7 @@ function formatDate(date) {
   return day + "-" + month + "-" + year;
 }
 
+// listout the tasks, render task.ejs page 
 module.exports.list = function (req, res) {
   Task.find({})
     .then((taskList) => {
@@ -33,6 +35,7 @@ module.exports.list = function (req, res) {
     });
 };
 
+// create a task using post method
 module.exports.create = function (req, res) {
   console.log(req.body);
   Task.create({
@@ -52,6 +55,7 @@ module.exports.create = function (req, res) {
     });
 };
 
+// delete tasks by ids using delete method
 module.exports.delete = function (req, res) {
   const ids = req.body.ids;
   Task.deleteMany({ _id: { $in: ids } })
