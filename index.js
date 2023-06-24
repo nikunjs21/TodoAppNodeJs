@@ -7,7 +7,7 @@ const flash = require("connect-flash");
 const PORT = 8080;
 const path = require("path"); // use path to define some path directories for example: views directory
 // use mongoose
-const db = requre("./config/mongoose");
+const db = require("./config/mongoose");
 // initiate appp
 const app = express();
 
