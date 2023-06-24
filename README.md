@@ -1,6 +1,7 @@
 # todolist
 
+mongodb name: todo_app_db
+
 1. npm install
-2. create db on mongodb: todo_app_db
-3. npm start or node index.js
+2. npm start or node index.js
 
