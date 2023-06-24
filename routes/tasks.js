@@ -9,7 +9,7 @@ const taskController = require("../controllers/task_controller");
 router.post("/create", taskController.create);
 
 // to delete multiple tasks
-router.get("/delete", taskController.delete);
+router.delete("/delete", taskController.delete);
 
 // export router
 module.exports = router;

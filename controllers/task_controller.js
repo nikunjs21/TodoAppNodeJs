@@ -57,11 +57,13 @@ module.exports.delete = function (req, res) {
   Task.deleteMany({ _id: { $in: ids } })
     .then(() =>
       res.status(200).json({
+        status: true,
         message: "Deleted Successfully!",
       })
     )
     .catch((err) =>
       res.status(500).json({
+        status: false,
         message: "Something went wrong!",
         error: err,
       })

@@ -19,6 +19,11 @@
     <title><%=title%></title>
   </head>
   <body>
+    <div class="loader backdrop" style="display: none;">
+      <div class="spinner-grow text-light" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
     <% if (success.length) { %>
     <div class="alert alert-success"><%= success %></div>
     <% } %> <% if (error.length) { %>
@@ -32,77 +37,79 @@
             <h2 class="text-center">TODO App</h2>
           </div>
           <div class="card-body">
-            <form action="/tasks/create" method="POST">
-              <div class="row mb-3">
-                <div class="col-md-4">
-                  <input
-                    class="form-control mt-2"
-                    type="text"
-                    name="description"
-                    id="description"
-                    placeholder="Description"
-                    required
-                  />
+            <form action="/tasks/create" class="sticky-top" method="POST">
+              <div class="card card-body">
+                <div class="row mb-3">
+                  <div class="col-md-4">
+                    <input
+                      class="form-control mt-2"
+                      type="text"
+                      name="description"
+                      id="description"
+                      placeholder="Description"
+                      required
+                    />
+                  </div>
+                  <div class="col-md-4">
+                    <select
+                      class="form-control mt-2"
+                      name="category"
+                      id="category"
+                      required
+                    >
+                      <option value="">SELECT CATEGORY</option>
+                      <option value="PERSONAL">Personal</option>
+                      <option value="WORK">Work</option>
+                      <option value="EDUCATION">Education</option>
+                      <option value="CLEANING">Cleaning</option>
+                      <option value="OTHER">Other</option>
+                    </select>
+                  </div>
+                  <div class="col-md-4">
+                    <input
+                      class="form-control mt-2"
+                      type="date"
+                      name="date"
+                      id="date"
+                      placeholder="DUE DATE"
+                      required
+                    />
+                  </div>
                 </div>
-                <div class="col-md-4">
-                  <select
-                    class="form-control mt-2"
-                    name="category"
-                    id="category"
-                    required
-                  >
-                    <option value="">SELECT CATEGORY</option>
-                    <option value="PERSONAL">Personal</option>
-                    <option value="WORK">Work</option>
-                    <option value="EDUCATION">Education</option>
-                    <option value="CLEANING">Cleaning</option>
-                    <option value="OTHER">Other</option>
-                  </select>
+                <div class="row">
+                  <div class="col-md-3"></div>
+                  <div class="col-md-3">
+                    <button class="btn btn-primary w-100 mt-2" type="submit">
+                      Add Task
+                    </button>
+                  </div>
+                  <div class="col-md-3">
+                    <button
+                      id="delete-tasks"
+                      class="btn btn-danger w-100 mt-2"
+                      type="button"
+                    >
+                      Delete Tasks
+                    </button>
+                  </div>
+                  <div class="col-md-3"></div>
                 </div>
-                <div class="col-md-4">
-                  <input
-                    class="form-control mt-2"
-                    type="date"
-                    name="date"
-                    id="date"
-                    placeholder="DUE DATE"
-                    required
-                  />
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-4"></div>
-                <div class="col-md-2">
-                  <button class="btn btn-primary w-100" type="submit">
-                    Add Task
-                  </button>
-                </div>
-                <div class="col-md-2">
-                  <button
-                    id="delete-tasks"
-                    class="btn btn-danger w-100"
-                    type="button"
-                  >
-                    Delete Tasks
-                  </button>
-                </div>
-                <div class="col-md-4"></div>
               </div>
             </form>
             <hr />
             <div class="row">
               <div class="col-md-12">
                 <% for(let row of taskList){ %>
-                <div class="card">
+                <div class="card card_task card_task_<%=row._id%> my-2">
                   <div class="card-body">
                     <div class="row">
                       <div class="col-1">
-                        <input type="checkbox" id="<%row._id%>" />
+                        <input type="checkbox" class="task-checkbox" data-id="<%=row._id%>" />
                       </div>
                       <div class="col-8">
                         <div>
                           <h5><%=row.description%></h5>
-                          <p><%=formatDate(row.date)%></p>
+                          <p class="d-flex"><span class="fs-5"><ion-icon name="calendar-outline"></ion-icon></span>&nbsp;<%=formatDate(row.date)%></p>
                         </div>
                       </div>
                       <div class="col-3">
@@ -135,10 +142,27 @@
       </div>
       <div class="col-md-2"></div>
     </div>
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+      <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+          <!-- <img src="..." class="rounded me-2" alt="..."> -->
+          <strong class="me-auto response-title"></strong>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body response-message">
+        </div>
+      </div>
+    </div>
+
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
       crossorigin="anonymous"
     ></script>
+    <script src="js/jquery.min.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script src="js/scripts.js"></script>
   </body>
 </html>
